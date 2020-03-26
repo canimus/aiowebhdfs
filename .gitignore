@@ -1,0 +1,6 @@
+.vscode/
+.pytest_cache/
+*.log
+build/
+dist/
+*/**/__pycache__/

@@ -22,14 +22,16 @@ def test_attributes(attribute_name):
   client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark')
   assert hasattr(client, attribute_name)
 
+@pytest.mark.skip
 def test_create(event_loop):
   headers = httpx.Headers({'Authorization' : auth})
   with httpx.Client() as s:
     token = s.get(endpoint, headers=headers).json()['delegationToken']
     client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-    response = event_loop.run_until_complete(client.create("d:\\aiowebhdfs\\tests\\fixtures\\uno.txt", "/tmp/dos.txt", True))
+    response = event_loop.run_until_complete(client.create("fixtures\\uno.txt", "/tmp/dos.txt", True))
     assert response.status_code == 201
 
+@pytest.mark.skip
 def test_get_file_status(event_loop):
   headers = httpx.Headers({'Authorization' : auth})
   with httpx.Client() as s:

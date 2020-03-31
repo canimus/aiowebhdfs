@@ -13,7 +13,7 @@ I know, nobody uses `Hadoop` anymore, but for those who do, here is a library th
 ```python
 from aiowebhdfs import WebHdfsAsyncClient
 client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-client.create('c:\\temp\\bigfile.txt', '/data/agg/bigfile.txt', overwrite=False)
+await client.create('c:\\temp\\bigfile.txt', '/data/agg/bigfile.txt', overwrite=False)
 ```
 
 ## OPEN = Read File
@@ -21,7 +21,7 @@ client.create('c:\\temp\\bigfile.txt', '/data/agg/bigfile.txt', overwrite=False)
 ```python
 from aiowebhdfs import WebHdfsAsyncClient
 client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-client.open('/data/agg/bigfile.txt')
+await client.open('/data/agg/bigfile.txt')
 Content of the file
 ```
 
@@ -30,7 +30,7 @@ Content of the file
 ```python
 from aiowebhdfs import WebHdfsAsyncClient
 client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-client.get_file_status('/data/agg/bigfile.txt')
+await client.get_file_status('/data/agg/bigfile.txt')
 {
   "FileStatus":
   {
@@ -53,7 +53,7 @@ client.get_file_status('/data/agg/bigfile.txt')
 ```python
 from aiowebhdfs import WebHdfsAsyncClient
 client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-client.list_directory('/tmp')
+await client.list_directory('/tmp')
 {
   "FileStatuses":
   {
@@ -94,7 +94,7 @@ client.list_directory('/tmp')
 ```python
 from aiowebhdfs import WebHdfsAsyncClient
 client = WebHdfsAsyncClient(host='namenode.local', port=8443, user='spark', kerberos_token=token)
-client.list_directory('/tmp')
+await client.list_directory('/tmp')
 {
   "FileStatuses":
   {

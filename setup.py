@@ -17,15 +17,19 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
-        "Topic :: Text Processing",
-        "Topic :: Utilities"
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: Session",
+        "Topic :: System :: Distributed Computing",
+        "Topic :: System :: Filesystems",
+        "Development Status :: 3 - Alpha"
     ],
     install_requires=[
           'aiofiles==0.4.0',
           'aiohttp==3.6.2',
           'asyncio==3.4.3',
           'opnieuw==0.0.3',
-          'httpx==0.11.1'
+          'httpx==0.11.1',
+          'furl==2.1.0',
       ],
     python_requires='>=3.6',
 )

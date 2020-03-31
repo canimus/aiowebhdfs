@@ -87,15 +87,36 @@ class WebHdfsAsyncClient():
     @retry_async(
         retry_on_exceptions=(httpx.HTTPError, httpx.ConnectionClosed),
         max_calls_total=_retry_attempts,
-        retry_window_after_first_call_in_seconds=_retry_seconds,
+        retry_window_after_first_call_in_seconds=_retry_seconds
     )
-    async def get_file_status(self, path: str):
+    async def open(self, path):
         async with httpx.AsyncClient() as session:
             params = {
-                'op': 'GETFILESTATUS',
-                'user.name': self._user
-            }
+                'op': 'OPEN',
+                    'user.name': self._user
+                }
 
+            # Kerberos verification
+            if self._kerberos_token:
+                params = {**params, **{'delegation': self._kerberos_token}}
+
+            hdfs_path = str(self._url / path)
+            response_name_node = await session.get(hdfs_path, params=params, allow_redirects=False)
+            response_data_node = await session.get(
+                response_name_node.headers['location'],
+                params={'delegation': self._kerberos_token},
+                timeout=self._timeout_seconds * 60  # In minutes
+            )
+
+            return response_data_node
+
+    @retry_async(
+        retry_on_exceptions=(httpx.HTTPError, httpx.ConnectionClosed),
+        max_calls_total=_retry_attempts,
+        retry_window_after_first_call_in_seconds=_retry_seconds,
+    )
+    async def _get_operation(self, path: str, params, key):
+        async with httpx.AsyncClient() as session:
             # Kerberos verification
             if self._kerberos_token:
                 params = {**params, **{'delegation': self._kerberos_token}}
@@ -104,9 +125,33 @@ class WebHdfsAsyncClient():
             response_name_node = await session.get(hdfs_path, params=params)
             if response_name_node.status_code == 200:
                 body = response_name_node.json()
-                if "FileStatus" in body.keys():
+                if key in body.keys():
                     return body
                 elif "RemoteException" in body.keys():
                     raise FileNotFoundError(f'HDFS does not have a reference for {path}.')
             else:
                 raise FileNotFoundError(f'HDFS does not have a reference for {path}.')
+        
+    def get_file_status(self, path):
+        params = {
+                'op': 'GETFILESTATUS',
+                'user.name': self._user
+            }
+        key = 'FileStatus'
+        return self._get_operation(path, params, key)
+
+    def list_directory(self, path):
+        params = {
+                'op': 'LISTSTATUS',
+                'user.name': self._user
+            }
+        key = 'FileStatuses'
+        return self._get_operation(path, params, key)
+
+    def get_content_summary(self, path):
+        params = {
+                'op': 'GETCONTENTSUMMARY',
+                'user.name': self._user
+            }
+        key = 'ContentSummary'
+        return self._get_operation(path, params, key)

@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Herminio Vazquez",
     author_email="canimus@gmail.com",
-    description="An modern asynchronous web client for WebHDFS",
+    description="A modern and asynchronous web client for WebHDFS",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/canimus/aiowebhdfs",

@@ -6,3 +6,4 @@ dist/
 */**/__pycache__/
 *.code-workspace
 tests/test_local.py
+aiowebhdfs.egg-info/

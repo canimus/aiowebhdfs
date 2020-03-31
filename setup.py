@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="aiowebhdfs", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Herminio Vazquez",
     author_email="canimus@gmail.com",
     description="A modern and asynchronous web client for WebHDFS",

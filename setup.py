@@ -28,7 +28,7 @@ setuptools.setup(
           'aiohttp==3.7.4',
           'asyncio==3.4.3',
           'opnieuw==0.0.3',
-          'httpx==0.11.1',
+          'httpx==0.23.0',
           'furl==2.1.0',
       ],
     python_requires='>=3.6',

@@ -25,7 +25,7 @@ setuptools.setup(
     ],
     install_requires=[
           'aiofiles==0.4.0',
-          'aiohttp==3.7.4',
+          'aiohttp==3.8.5',
           'asyncio==3.4.3',
           'opnieuw==0.0.3',
           'httpx==0.23.0',
